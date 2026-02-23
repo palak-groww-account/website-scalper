@@ -96,7 +96,7 @@ function HeaderLinks() {
 
 function Header() {
   return (
-    <div className="-translate-x-1/2 backdrop-blur-[10px] bg-[rgba(17,17,17,0.04)] content-stretch flex items-center justify-between pointer-events-auto px-[124px] py-[32px] sticky top-0 w-[1728px]" data-name="header">
+    <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-[10px] bg-[rgba(17,17,17,0.04)] content-stretch flex items-center justify-between px-[124px] py-[32px]" data-name="header">
       <Frame3 />
       <HeaderLinks />
     </div>
@@ -24865,11 +24865,11 @@ function Ticker9() {
 
 function Illustration() {
   return (
-    <div className="flex-[1_0_0] min-h-px min-w-px relative w-full h-full" data-name="Illustration">
+    <div className="flex-[1_0_0] min-h-0 min-w-0 relative w-full" data-name="Illustration">
       <img
         src="/on-chart-trading.png"
         alt="On-chart trading interface showing candlestick chart with trade markers"
-        className="w-full h-full object-cover rounded-[8px]"
+        className="w-full h-full object-contain rounded-[8px]"
         loading="lazy"
       />
     </div>
@@ -27973,9 +27973,9 @@ function Frame128() {
 
 export default function Section() {
   return (
-    <div className="bg-[#060809] relative w-full min-h-screen" data-name="Section">
+    <div className="relative w-full min-h-screen" data-name="Section">
+      <Header />
       <div className="absolute bottom-0 h-[7298px] left-1/2 pointer-events-none top-0">
-        <Header />
       </div>
       <Frame128 />
     </div>
