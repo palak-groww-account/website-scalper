@@ -170,7 +170,7 @@ const ParticleSurface = () => {
   }, [handleMouseMove]);
 
   return (
-    <div className="relative w-full h-[100vh] shrink-0">
+    <div className="relative w-full h-full">
       <div
         ref={containerRef}
         className="absolute inset-0 w-full h-full"

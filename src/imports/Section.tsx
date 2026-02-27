@@ -1,9 +1,19 @@
+import { useState } from "react";
 import svgPaths from "./svg-mxubjxot84";
 import imgTexture from "figma:asset/6318c0fd5600079139b6245c778ee178a65575e2.png";
 import imgImage38 from "figma:asset/40b90a35935995a70c6f24ca4f7f32c72d421cee.png";
 import imgImageFrame from "figma:asset/963c902a1dd0062f27cf0f4046a6b1e0bdbf97ad.png";
 import imgImage37 from "figma:asset/054fde181788e0598f38619a1d20213147dabfaa.png";
+import BeamComponent from "../app/components/BeamComponent";
 import ParticleSurface from "../app/components/ParticleSurface";
+import DottedSurface from "../app/components/DottedSurface";
+import EtherealSurface from "../app/components/EtherealSurface";
+import CircleSurface from "../app/components/CircleSurface";
+import VoidSurface from "../app/components/VoidSurface";
+import AetherSurface from "../app/components/AetherSurface";
+import LumaSurface from "../app/components/LumaSurface";
+import FluidSurface from "../app/components/FluidSurface";
+import GhostBeam from "../app/components/GhostBeam";
 import imgScalperRadio from "../assets/scalper-radio.png";
 
 function Frame2() {
@@ -27056,7 +27066,7 @@ function Frame73() {
       <p className="bg-clip-text font-['Sohne:Kräftig',sans-serif] min-w-full not-italic relative shrink-0 text-[52px] tracking-[-0.52px] w-[min-content]" style={{ backgroundImage: "linear-gradient(104.591deg, rgb(255, 255, 255) 0%, rgb(178, 183, 180) 99.384%)", WebkitTextFillColor: "transparent" }}>
         Built for speed
       </p>
-      <p className="font-['Groww_Sans_Variable:Medium',sans-serif] font-medium relative shrink-0 text-[#989ea0] text-[28px] w-[863px]">Low-latency execution, one-click orders, and keyboard shortcuts for faster trading.</p>
+      <p className="font-['Groww_Sans_Variable:Medium',sans-serif] font-medium relative shrink-0 text-[#989ea0] text-[24px] max-w-[863px]">Low-latency execution, one-click orders, and keyboard shortcuts for faster trading.</p>
     </div>
   );
 }
@@ -27102,13 +27112,83 @@ function Frame71() {
   );
 }
 
-function Frame72() {
+type BackgroundStyle = "beam" | "particle" | "dotted" | "ethereal" | "circle" | "void" | "aether" | "luma" | "fluid" | "ghost";
+
+const BACKGROUND_OPTIONS: { id: BackgroundStyle; label: string }[] = [
+  { id: "beam", label: "1" },
+  { id: "particle", label: "2" },
+  { id: "dotted", label: "3" },
+  { id: "ethereal", label: "4" },
+  { id: "circle", label: "5" },
+  { id: "void", label: "6" },
+  { id: "aether", label: "7" },
+  { id: "luma", label: "8" },
+  { id: "fluid", label: "9" },
+  { id: "ghost", label: "10" },
+];
+
+const BACKGROUND_COMPONENTS: Record<BackgroundStyle, React.FC> = {
+  beam: BeamComponent,
+  particle: ParticleSurface,
+  dotted: DottedSurface,
+  ethereal: EtherealSurface,
+  circle: CircleSurface,
+  void: VoidSurface,
+  aether: AetherSurface,
+  luma: LumaSurface,
+  fluid: FluidSurface,
+  ghost: GhostBeam,
+};
+
+function StyleSwitcher({
+  selected,
+  onSelect,
+}: {
+  selected: BackgroundStyle;
+  onSelect: (style: BackgroundStyle) => void;
+}) {
   return (
-    <div className="relative shrink-0 w-full pt-[144px] mb-[144px]">
-      <div className="absolute inset-0 z-0">
-        <ParticleSurface />
+    <div className="flex items-center gap-[2px] rounded-full px-[3px] py-[2px]" style={{ background: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
+      {BACKGROUND_OPTIONS.map((option) => (
+        <button
+          key={option.id}
+          type="button"
+          onClick={() => onSelect(option.id)}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect(option.id); }}
+          tabIndex={0}
+          aria-label={`Select ${option.label} background`}
+          aria-pressed={selected === option.id}
+          className={`relative rounded-full px-[8px] py-[2px] text-[10px] font-medium tracking-[0.3px] transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/30 ${
+            selected === option.id
+              ? "text-white"
+              : "text-[#989ea0] hover:text-white/70"
+          }`}
+          style={
+            selected === option.id
+              ? { background: "rgba(255, 255, 255, 0.1)", boxShadow: "0 0 12px rgba(189, 237, 143, 0.15)" }
+              : { background: "transparent" }
+          }
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function Frame72() {
+  const [selectedStyle, setSelectedStyle] = useState<BackgroundStyle>("beam");
+  const ActiveBackground = BACKGROUND_COMPONENTS[selectedStyle];
+
+  return (
+    <div className="relative shrink-0 w-full min-h-[600px] py-[144px]">
+      <div className="absolute inset-x-0 -inset-y-[200px] z-0">
+        <ActiveBackground />
       </div>
-      <div className="relative z-10 content-stretch flex flex-col items-center w-full">
+      <div className="fixed top-[16px] left-1/2 -translate-x-1/2 z-50">
+        <StyleSwitcher selected={selectedStyle} onSelect={setSelectedStyle} />
+      </div>
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
         <Frame71 />
       </div>
     </div>
@@ -27961,22 +28041,20 @@ function Footer() {
 
 function Frame128() {
   return (
-    <div className="relative content-stretch flex flex-col items-start pt-[104px] w-full max-w-[1728px]">
-      <Main />
-      <Frame127 />
+    <div className="relative flex flex-col items-center w-full">
+      {/* <Main /> */}
+      {/* <Frame127 /> */}
       <Frame72 />
-      <Faq />
-      <Footer />
+      {/* <Faq /> */}
+      {/* <Footer /> */}
     </div>
   );
 }
 
 export default function Section() {
   return (
-    <div className="relative w-full min-h-screen" data-name="Section">
-      <Header />
-      <div className="absolute bottom-0 h-[7298px] left-1/2 pointer-events-none top-0">
-      </div>
+    <div className="relative w-full min-h-screen flex items-center justify-center" data-name="Section">
+      {/* <Header /> */}
       <Frame128 />
     </div>
   );
